@@ -1,13 +1,15 @@
+//importar mongoose
 const { default: mongoose, mongo } = require('mongoose');
-//importa mongoose
-require('mongoose');
+//importar las entidades y las funciones
+const { Tutor, Estudiante, Tutoria, CrearTutor, CrearEstudiante, ModificarEntidadMaestra, MostrarEntidadPorId, MostrarEntidades, CrearTutoria, ModificarTutoria, EliminarEntidadPorId } = require('./entidades');
 
 //guardar en una variable la cadena de coneccion proporcionada en el proyecto de Atlas
-const cadenaConexion = "mongodb+srv://croso:croso12@cluster0.n6maocl.mongodb.net/bddt3";// se cambia la contraseña y el nombre de la bdd (opcional)
+const cadenaConexion = "mongodb+srv://croso:croso12@cluster0.n6maocl.mongodb.net/test";// se cambia la contraseña y el nombre de la bdd (opcional)
 
 //funcion async para realizar el proceso
 (async () => {
     try {
+
         //se realiza la conexion a la base de datos
         const conexion = await mongoose.connect(cadenaConexion);
 
@@ -15,91 +17,56 @@ const cadenaConexion = "mongodb+srv://croso:croso12@cluster0.n6maocl.mongodb.net
         //1 tutorado (estudiantes) puede asistir a varias (1 o mas) tutorias 
         //1 tutoria tiene 1 tutor y 1 tutorado (grupo de estudiantes) T
 
-        //se definen las entidades Tutor, Estudiante y Tutoria
-        const Tutor = mongoose.model("Tutor", { nombre: String });
-
-        const Estudiante = mongoose.model("Estudiante", { nombre: String });
-
-        const Tutoria = mongoose.model("Tutoria", {
-            nombre: String,
-            idtutor: { type: mongoose.Types.ObjectId, ref: "Tutor" },
-            estudiantes:
-                [{
-                    estudiante: { type: mongoose.Types.ObjectId, ref: "Estudiante" },
-                }],
-        });
 
         //Se crean los tutores
-        const tutor1 = new Tutor({ nombre: "John Cevallos" });
-        const tutor2 = new Tutor({ nombre: "Robert Moreira" });
-        //se guaradan los registros de los tutores
-        const tutor1Save = await tutor1.save();
-        const tutor2Save = await tutor2.save();
+        const tutor1 = await CrearTutor("John Cevallos");
+        const tutor2 = await CrearTutor("Robert Moreira");
 
         //se crean los estudiantes
-        const estudiante1 = new Estudiante({ nombre: "Cristian Bonilla" });
-        const estudiante2 = new Estudiante({ nombre: "Miryan Franco ♥" });
-        const estudiante3 = new Estudiante({ nombre: "Carlos Chavez" });
-        const estudiante4 = new Estudiante({ nombre: "Juan Ferrin" });
-        const estudiante5 = new Estudiante({ nombre: "Michael Vinces" });
-        //se guardan los registros de los estudiantes
-        const estudiante1Save = await estudiante1.save();
-        const estudiante2Save = await estudiante2.save();
-        const estudiante3Save = await estudiante3.save();
-        const estudiante4Save = await estudiante4.save();
-        const estudiante5Save = await estudiante5.save();
+        const estudiante1 = await CrearEstudiante("Cristian Bonilla");
+        const estudiante2 = await CrearEstudiante("Miryan Franco ♥");
+        const estudiante3 = await CrearEstudiante("Carlos Chavez");
+        const estudiante4 = await CrearEstudiante("Juan Ferrin");
+        const estudiante5 = await CrearEstudiante("Michael Vinces");
+
+        //se guardan los estudiantes en arreglos
+        const arregloEstudiantes1 = [
+            estudiante1, estudiante2, estudiante3
+        ]
+        const arregloEstudiantes2 = [
+            estudiante3, estudiante4, estudiante5
+        ]
 
         //se crean las tutorias
-        const tutoria1 = new Tutoria({
-            nombre: "Aplicaciones Web 2",
-            idtutor: tutor1._id,
-            estudiantes: [
-                { estudiante: estudiante1._id },
-                { estudiante: estudiante2._id },
-                { estudiante: estudiante3._id },
-            ]
-        });
-        const tutoria2 = new Tutoria({
-            nombre: "Gestion de Base de Datos",
-            idtutor: tutor2._id,
-            estudiantes: [
-                { estudiante: estudiante3._id },
-                { estudiante: estudiante4._id },
-                { estudiante: estudiante5._id },
-            ]
-        });
-        //se guardan los registros de las tutorias
-        const tutoria1Save = await tutoria1.save();
-        const tutoria2Save = await tutoria2.save();
+        const tutoria1 = await CrearTutoria("Aplicaciones Web 2", tutor1, arregloEstudiantes1);
+        const tutoria2 = await CrearTutoria("Gestion de Base de Datos", tutor2, arregloEstudiantes2);
 
 
-        //se hace la consulta de tutores mediante find()
-        const resultadoTutor = await Tutor.find();
-        console.log("TUTORES---------------------------------------");
-        //se recorre el arreglo mediante foreach
-        resultadoTutor.forEach(e => {
-            console.log(e);
-        });
-        console.log("-----------------------------------------------")
+        //mostrar tutores
+        await MostrarEntidades("Tutor");
 
-        //se hace la consulta de estudiantes mediante find()
-        const resultadoEstudiante = await Estudiante.find();
-        console.log("ESTUDIANTES------------------------------------");
-        //se corre el arreglo mediante for in
-        for (const i in resultadoEstudiante) {
-            console.log(resultadoEstudiante[i])
-        }
-        console.log("-----------------------------------------------")
+        //mostrar estudiantes
+        await MostrarEntidades("Estudiante");
 
-        //se hace la consulta de las tutorias mediante find() y se acceden al resto de entidades relacionadas mediante populate()
-        const resultadoTutoria = await Tutoria.find().populate("idtutor").populate("estudiantes.estudiante.nombre");
-        console.log("TUTORIAS---------------------------------------");
-        //se recorre el arreglo mediante for
-        for (let i = 0; i < resultadoTutoria.length; i++) {
-            console.log(resultadoTutoria[i])
-        }
-        console.log("-----------------------------------------------")
-       
+        //mostrar tutorias
+        await MostrarEntidades("Tutoria");
+
+        //modificar una entidad maestra
+        //mostrar entidad especifica recien modificada
+        await ModificarEntidadMaestra(estudiante5._id, "Leonardo Andrade", "Estudiante");
+        await MostrarEntidadPorId(estudiante5._id, "Estudiante");
+
+        //modificar entidad transaccional
+        //se crea un nuevo tutor y se lo reemplaza en la tutoria 1 al igual que se cambia el nombre de la tutoria
+        //se muestra la tutoria modificada
+        const tutor3 = await CrearTutor("The Weeknd");
+        await ModificarTutoria(tutoria1._id,"Dawn FM",tutor3,null);
+        await MostrarEntidadPorId(tutoria1._id,"Tutoria");
+
+        //eliminar una entidad especifica
+        //mostrar el conjunto de entidades actualizado
+        await EliminarEntidadPorId(estudiante4._id,"Estudiante");
+        await MostrarEntidades("Estudiante");
 
     } catch (error) {
         console.log(error)
