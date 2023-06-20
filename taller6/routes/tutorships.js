@@ -1,33 +1,32 @@
 const { Router } = require('express')
 const { check } = require('express-validator')
 
-const {
-    getTutoria,
-    getTutorias,
-    createTutoria,
-    updateTutoria,
-    deleteTutoria
-} = require('../controllers').Tutoria;
+const { createTutorship,
+    getTutorship,
+    getTutorships,
+    updateTutorship,
+    deleteTutorship
+} = require('../controllers').Tutorship;
 
 const { validateFields } = require('../middlewares')
 
 const router = Router();
 
-router.get('/', getTutorias);
+router.get('/', getTutorships);
 
 router.get('/:id', [
     check('id', 'Este no es un ID de Mongo correcto').isMongoId()
-], getTutoria);
+], getTutorship);
 
 router.post('/', [
-    check('asignatura', 'La asignatura es requerida').not().isEmpty(),
+    check('name', 'El nombre es requerido').not().isEmpty(),
     validateFields
-], createTutoria)
+], createTutorship)
 
-router.put('/:id', updateTutoria)
+router.put('/:id', updateTutorship)
 
 router.delete('/:id', [
     check('id', 'Debe ser un id de mongo VALIDO').isMongoId()
-], deleteTutoria)
+], deleteTutorship)
 
 module.exports = router;

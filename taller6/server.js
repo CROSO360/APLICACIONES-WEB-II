@@ -14,15 +14,15 @@ class Server
         this.port = process.env.PORT;
 
         this.paths = {
-            tutore: '/api/tutor',
-            tutorado: '/api/tutorado',
-            tutoria: '/api/tutoria'
+            tutorships: '/api/tutorships',
+            tutors: '/api/tutors',
+            students:'/api/students'
         }
 
         this.connectDB();
         this.middlewares();
         this.routes();
-        this.router.use('/v1/tutoria', this.app);
+        this.router.use('/v1/tutorship', this.app);
         this._express = express().use(this.router);
     }
     async connectDB(){
@@ -36,9 +36,9 @@ class Server
 
     }
     routes(){
-        this.app.use(this.paths.tutores, require('./routes/tutor')   )
-        this.app.use(this.paths.tutorado, require('./routes/tutorado')   )
-        this.app.use(this.paths.tutorias, require('./routes/tutoria')   )
+        this.app.use(this.paths.tutorships, require('./routes/tutorships')   )
+        this.app.use(this.paths.tutors, require('./routes/tutors')   )
+        this.app.use(this.paths.students, require('./routes/students')   )
     }
 
     listen(){
