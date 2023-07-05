@@ -1,0 +1,48 @@
+version: '3'
+
+
+services:
+
+  tutors:
+    build: ./tutor
+    depends_on:
+      - datatutors
+    environment:
+      - PORT=2500
+      - MONGODB_CNN=mongodb://datatutors:27017/test
+  students:
+    build: ./student
+    depends_on:
+      - datastudents
+    environment:
+      - PORT=2500
+      - MONGODB_CNN=mongodb://datastudents:27017/test
+  tutorships:
+    build: ./tutorship
+    depends_on:
+      - datatutorships
+    environment:
+      - PORT=2500
+      - MONGODB_CNN=mongodb://datatutorships:27017/test
+  datatutors:
+    image: mongo
+    # ports:
+    #   - "27017:27017"
+  datastudents:
+    image: mongo
+    # ports:
+    #   - "27017:27017"
+  datatutorships:
+    image: mongo
+    # ports:
+    #   - "27017:27017"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "3500:3500"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - tutors
+      - students
+      - tutorships
