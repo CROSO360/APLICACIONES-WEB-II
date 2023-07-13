@@ -1,0 +1,53 @@
+<p>Ingrese tutoria</p>
+<div>
+
+
+  
+    <form #loginForm="ngForm" (ngSubmit)="submitData(loginForm.value)">
+      <div class="main">
+        <div class="input-fields">
+          <input name="name" ngModel placeholder="Nombre" id="name" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+          <input name="hours" ngModel placeholder="Horas" id="hours" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+          <input name="date" ngModel placeholder="fecha" id="date" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+            <input name="hour" ngModel placeholder="hora" id="hour" type="text" class="input-field" />
+          </div>
+          <div class="input-fields">
+            <input name="student" ngModel placeholder="estudiante" id="student" type="text" class="input-field" />
+          </div><div class="input-fields">
+            <input name="tutor" ngModel placeholder="tutor" id="tutor" type="text" class="input-field" />
+          </div>
+        <button>Create Data </button>
+      </div>
+    </form>
+    <table border="1">
+      <thead>
+        <th>id</th>
+        <th>Nombre</th>
+        <th>Horas</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Estudiante</th>
+        <th>Tutor</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tutorship of dataTutorships.tutorships">
+          <td>{{tutorship._id}}</td>
+          <td>{{tutorship.name}}</td>
+          <td>{{tutorship.hours}}</td>
+          <td>{{tutorship.date}}</td>
+          <td>{{tutorship.hour}}</td>
+          <td>{{tutorship.student}}</td>
+          <td>{{tutorship.tutor}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <router-outlet></router-outlet>

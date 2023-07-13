@@ -1,0 +1,18 @@
+Para poner en marcha la aplicación se necesitan seguir los siguientes pasos:
+
+1. Tener la api (backend) de "Tutorias academicas"
+    Descargar el "Taller6" con el siguiente enlace: https://github.com/CROSO360/APLICACIONES-WEB-II
+    Una vez descargado y abierto en un editor de código ejecutar el comando "npm i" en la terminal
+
+2. Ejecutar la api con el comando "npm run dev".
+    Por defecto la api se ejecuta en el puerto 2500
+
+3. Ejecutar este proyecto "taller8" con el comando "ng serve --open"
+    Por defecto el proyecto se ejecuta en el puerto 4200
+
+4. Ingresar a los enlaces para probar su funcionamiento:
+    http://localhost:4200/tutor
+    http://localhost:4200/estudiante
+    http://localhost:4200/tutoria
+
+NOTA: los datos ingresados en la aplicación se guarndan en un servicio en la nube, no se necesita instalar una base de datos

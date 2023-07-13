@@ -10,8 +10,8 @@ const getTutorships= async (req, res = response )=>{
     const [ sum, tutorships ] = await Promise.all([
         Tutorship.countDocuments(query),
         Tutorship.find(query)
-        .populate('tutor')
-        .populate('students.student.name')
+        .populate('tutor.name')
+        .populate('student.name')
         .skip(Number(since))
         .limit(Number(limit))
     ])
@@ -22,10 +22,12 @@ const getTutorships= async (req, res = response )=>{
     })
     
 }
+//tutor 64af229b6af16c9349974b78
+//estudiante 64af22286af16c9349974b71
 
 const getTutorship= async (req, res =  response)=>{
     const {id} = req.params
-    const tutorship=  await Tutorship.findById(id).populate('tutor').populate('students.student.name');
+    const tutorship=  await Tutorship.findById(id).populate('tutor.name').populate('student.name');
     res.json(tutorship);
 }
 

@@ -1,0 +1,35 @@
+<p>Ingrese estudiante</p>
+
+<div>
+
+
+  
+    <form #loginForm="ngForm" (ngSubmit)="submitData(loginForm.value)">
+      <div class="main">
+        <div class="input-fields">
+          <input name="name" ngModel placeholder="Nombre" id="name" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+          <input name="identification" ngModel placeholder="identificacion" id="identification" type="text" class="input-field" />
+        </div>
+        <button>Create Data </button>
+      </div>
+    </form>
+    <table border="1">
+      <thead>
+        <th>id</th>
+        <th>Nombre</th>
+        <th>Identificacion</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of dataStudents.students">
+            <td>{{student._id}}</td>
+          <td>{{student.name}}</td>
+          <td>{{student.identification}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <router-outlet></router-outlet>

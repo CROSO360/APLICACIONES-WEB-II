@@ -1,0 +1,39 @@
+<p>Ingrese tutor</p>
+<div>
+
+
+  
+    <form #loginForm="ngForm" (ngSubmit)="submitData(loginForm.value)">
+      <div class="main">
+        <div class="input-fields">
+          <input name="name" ngModel placeholder="Nombre" id="name" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+          <input name="identification" ngModel placeholder="identificacion" id="identification" type="text" class="input-field" />
+        </div>
+        <div class="input-fields">
+          <input name="expertise" ngModel placeholder="Experticia" id="expertise" type="text" class="input-field" />
+        </div>
+        <button>Create Data </button>
+      </div>
+    </form>
+    <table border="1">
+      <thead>
+        <th>id</th>
+        <th>Nombre</th>
+        <th>Identificacion</th>
+        <th>Experticia</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tutor of dataTutors.tutors">
+          <td>{{tutor._id}}</td>
+          <td>{{tutor.name}}</td>
+          <td>{{tutor.identification}}</td>
+          <td>{{tutor.expertise}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <router-outlet></router-outlet>

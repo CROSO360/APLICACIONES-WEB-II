@@ -13,22 +13,19 @@ const TutorshipSchema = Schema(
             required: true
         },
         hours: {
-            type: Number,
-            default: 1
+            type: String
         },
         date: {
-            type: Date
+            type: String
         },
         hour: {
             type: String
         },
-        students: [{
-            student: {
-                type: Schema.Types.ObjectId,
-                ref: 'Student',
-                required: false
-            }
-        }],
+        student:{
+            type: Schema.Types.ObjectId,
+            ref:'Student',
+            required: false
+        },
         tutor: {
             type: Schema.Types.ObjectId,
             ref: 'Tutor',
