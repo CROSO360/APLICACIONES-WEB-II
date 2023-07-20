@@ -4,7 +4,7 @@ export interface ITutors {
 }
 
 export interface ITutor {
-    _id?: string;
+    _id: string;
     name: string;
     status?: boolean;
     identification: string;

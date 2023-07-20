@@ -2,38 +2,60 @@
 <div>
 
 
-  
-    <form #loginForm="ngForm" (ngSubmit)="submitData(loginForm.value)">
-      <div class="main">
-        <div class="input-fields">
-          <input name="name" ngModel placeholder="Nombre" id="name" type="text" class="input-field" />
-        </div>
-        <div class="input-fields">
-          <input name="identification" ngModel placeholder="identificacion" id="identification" type="text" class="input-field" />
-        </div>
-        <div class="input-fields">
-          <input name="expertise" ngModel placeholder="Experticia" id="expertise" type="text" class="input-field" />
-        </div>
-        <button>Create Data </button>
+
+  <form #loginForm="ngForm" (ngSubmit)="submitData(loginForm.value)">
+    <div class="main">
+      <div class="input-fields">
+        <input name="name" ngModel placeholder="Nombre" id="name" type="text" class="input-field" />
       </div>
+      <div class="input-fields">
+        <input name="identification" ngModel placeholder="identificacion" id="identification" type="text"
+          class="input-field" />
+      </div>
+      <div class="input-fields">
+        <input name="expertise" ngModel placeholder="Experticia" id="expertise" type="text" class="input-field" />
+      </div>
+      <button>Create Data </button>
+    </div>
+  </form>
+  <table border="1">
+    <thead>
+      <th>id</th>
+      <th>Nombre</th>
+      <th>Identificacion</th>
+      <th>Experticia</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tutor of dataTutors.tutors">
+        <td>{{tutor._id}}</td>
+        <td>{{tutor.name}}</td>
+        <td>{{tutor.identification}}</td>
+        <td>{{tutor.expertise}}</td>
+        <td><button (click)="modifyData(tutor)" onclick="sape.showModal()">modificar</button>
+          <button (click)="DELETE(tutor._id)">eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <dialog id="sape">
+    <form method="dialog" (ngSubmit)="modifyData(ediRegistro)" >
+      <!-- Campos del formulario -->
+      <h3> modificar </h3>
+          <input [(ngModel)]="ediRegistro.name" [ngModelOptions]="{ standalone: true }" class="m-2 p-2" type="text"
+            placeholder="Nombre">
+          <input [(ngModel)]="ediRegistro.identification" [ngModelOptions]="{ standalone: true }" class="m-2 p-2" type="text"
+            placeholder="Correo">
+          <input [(ngModel)]="ediRegistro.expertise" [ngModelOptions]="{ standalone: true }" class="m-2 p-2"
+            type="text" placeholder=" Contraseña">
+          <button type="submit">Enviar</button>
+          <p >Press Scape ESC</p>
     </form>
-    <table border="1">
-      <thead>
-        <th>id</th>
-        <th>Nombre</th>
-        <th>Identificacion</th>
-        <th>Experticia</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tutor of dataTutors.tutors">
-          <td>{{tutor._id}}</td>
-          <td>{{tutor.name}}</td>
-          <td>{{tutor.identification}}</td>
-          <td>{{tutor.expertise}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  
-  <router-outlet></router-outlet>
+    <form method="dialog" >
+      <button>close</button>
+    </form>
+
+  </dialog>
+</div>
+
+
+<router-outlet></router-outlet>
